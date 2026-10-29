@@ -1,9 +1,12 @@
 /* Pengaturan Warna dan Font Dasar */
 :root {
     --bg-beige: #F9F6F0;       /* Warna background beige terang */
+    --surface-warm: #FDFBF7;   /* Warna permukaan kartu hangat */
     --text-brown: #5C4033;     /* Warna font coklat tua */
+    --text-muted: #7D6354;     /* Warna teks sekunder coklat lembut */
     --card-bg: #FFFFFF;        /* Warna background kartu (putih) */
     --accent-brown: #8B5A2B;   /* Warna coklat aksen */
+    --border-warm: #E5DACB;    /* Warna garis tepi hangat */
 }
 
 body {
@@ -14,62 +17,155 @@ body {
     padding: 20px;
     text-align: center;
     
-    /* Background Doodle Bintang/Sparkle Lucu */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath fill='%238b5a2b' fill-opacity='0.1' d='M14 16H9v-2h5V9.876L15 7v6h5v2h-5v5h-2v-4zM64 66h-5v-2h5v-4.124L65 57v6h5v2h-5v5h-2v-4zM24 46h-5v-2h5v-4.124L25 37v6h5v2h-5v5h-2v-4zM54 26h-5v-2h5v-4.124L55 17v6h5v2h-5v5h-2v-4z'/%3E%3C/svg%3E");
-    /* Animasi bergerak pelan ke arah diagonal */
+    /* Background Doodle Bintang/Sparkle Halus */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath fill='%238b5a2b' fill-opacity='0.08' d='M14 16H9v-2h5V9.876L15 7v6h5v2h-5v5h-2v-4zM64 66h-5v-2h5v-4.124L65 57v6h5v2h-5v5h-2v-4zM24 46h-5v-2h5v-4.124L25 37v6h5v2h-5v5h-2v-4zM54 26h-5v-2h5v-4.124L55 17v6h5v2h-5v5h-2v-4z'/%3E%3C/svg%3E");
     animation: gerakBackground 30s linear infinite;
 }
 
-/* Kunci Animasi Background */
 @keyframes gerakBackground {
     0% { background-position: 0px 0px; }
     100% { background-position: 80px 80px; }
 }
 
-header h1 {
-    font-size: 2.5rem;
-    color: var(--accent-brown);
-    margin-bottom: 5px;
+/* =========================================
+   DESAIN HEADER EDITORIAL STUDIO
+   ========================================= */
+.site-header {
+    max-width: 780px;
+    margin: 8px auto 26px;
+    padding: 0 4px;
 }
 
-header p {
-    font-size: 1.2rem;
-    margin-top: 0;
-    margin-bottom: 30px;
+.header-frame {
+    position: relative;
+    background-color: var(--surface-warm);
+    border: 1px solid var(--border-warm);
+    border-radius: 22px;
+    padding: 32px 28px 26px;
+    box-shadow: 0 12px 30px -10px rgba(92, 64, 51, 0.08);
+}
+
+/* Garis bingkai dalam tipis ala album foto klasik */
+.header-frame::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(139, 90, 43, 0.14);
+    border-radius: 17px;
+    pointer-events: none;
+}
+
+.header-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.eyebrow-line {
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background-color: rgba(139, 90, 43, 0.35);
+}
+
+.eyebrow-text {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--accent-brown);
+    text-transform: uppercase;
+}
+
+.header-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3.1rem;
+    font-weight: 700;
+    line-height: 1.08;
+    color: #3D261C;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.01em;
+}
+
+.header-title .title-italic {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--accent-brown);
+}
+
+.header-subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 18px;
+    line-height: 1.5;
+}
+
+.header-meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 14px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(139, 90, 43, 0.22);
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-brown);
+}
+
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta-item svg {
+    color: var(--accent-brown);
+    flex-shrink: 0;
+}
+
+.meta-divider {
+    color: rgba(139, 90, 43, 0.4);
 }
 
 /* Desain Tombol Kategori */
 .filters {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 30px;
 }
 
 .filter-btn {
-    background-color: var(--card-bg);
+    background-color: var(--surface-warm);
     color: var(--text-brown);
-    border: 2px solid var(--accent-brown);
-    padding: 10px 20px;
-    border-radius: 30px;
+    border: 1.5px solid #D8C7B4;
+    padding: 9px 20px;
+    border-radius: 999px;
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.92rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(92, 64, 51, 0.1);
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(92, 64, 51, 0.06);
 }
 
 .filter-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 10px rgba(92, 64, 51, 0.15);
+    border-color: var(--accent-brown);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(92, 64, 51, 0.12);
 }
 
 /* Desain saat tombol kategori aktif */
 .filter-btn.active {
     background-color: var(--accent-brown);
+    border-color: var(--accent-brown);
     color: var(--bg-beige);
+    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.25);
 }
 
 /* Mengatur tata letak galeri agar rapi */
@@ -153,6 +249,7 @@ header p {
     background-color: #6B8E23; /* Hijau zaitun */
     transform: scale(0.98);
 }
+
 /* =========================================
    DESAIN MODAL POPUP & PREVIEW KONSEP
    ========================================= */
@@ -193,11 +290,14 @@ body.modal-open {
     max-height: 90vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     box-shadow: 0 25px 50px -12px rgba(45, 25, 15, 0.35), 0 0 0 1px rgba(139, 90, 43, 0.08);
     transform: scale(0.92) translateY(15px);
     transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 90, 43, 0.35) transparent;
 }
 
 .modal-overlay.active .modal-card {
@@ -205,12 +305,14 @@ body.modal-open {
 }
 
 .modal-close-btn {
-    position: absolute;
+    position: sticky;
     top: 12px;
-    right: 12px;
+    align-self: flex-end;
+    margin-right: 12px;
+    margin-bottom: -38px;
     width: 38px;
     height: 38px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(4px);
     border: 1px solid rgba(139, 90, 43, 0.15);
     border-radius: 50%;
@@ -221,11 +323,12 @@ body.modal-open {
     font-weight: 700;
     color: var(--text-brown);
     cursor: pointer;
-    z-index: 10;
+    z-index: 20;
     transition: all 0.25s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
     line-height: 1;
     padding: 0;
+    flex-shrink: 0;
 }
 
 .modal-close-btn:hover {
@@ -242,13 +345,14 @@ body.modal-open {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    max-height: 56vh;
+    max-height: 50vh;
+    flex-shrink: 0;
 }
 
 .modal-image-wrapper img {
     width: 100%;
     height: 100%;
-    max-height: 56vh;
+    max-height: 50vh;
     object-fit: contain;
     display: block;
     background: #F3EFEA;
@@ -282,8 +386,176 @@ body.modal-open {
 .modal-title {
     font-size: 1.25rem;
     color: var(--accent-brown);
-    margin: 2px 0 6px 0;
+    margin: 2px 0 4px 0;
     font-weight: 700;
+}
+
+.modal-price-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #FFF8F0;
+    color: var(--accent-brown);
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1.5px dashed var(--accent-brown);
+    letter-spacing: 0.2px;
+    margin-bottom: 4px;
+}
+
+/* Tombol Mau Bayar Pakai QR */
+.modal-qr-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: #FFF8F0;
+    color: var(--accent-brown);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 11px 18px;
+    border-radius: 14px;
+    border: 2px solid var(--accent-brown);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+    margin-top: 2px;
+}
+
+.modal-qr-toggle-btn:hover {
+    background: var(--accent-brown);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.22);
+}
+
+.modal-qr-toggle-btn.active {
+    background: var(--accent-brown);
+    color: #FFFFFF;
+}
+
+/* Area QRIS & Langkah Pembayaran */
+.modal-qr-section {
+    width: 100%;
+    background: #FDFBF7;
+    border: 1.5px solid rgba(139, 90, 43, 0.22);
+    border-radius: 16px;
+    padding: 14px;
+    box-sizing: border-box;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    animation: fadeSlideDown 0.28s ease-out;
+}
+
+.modal-qr-section[hidden] {
+    display: none !important;
+}
+
+@keyframes fadeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.qr-card-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(139, 90, 43, 0.12);
+    box-shadow: 0 4px 12px rgba(92, 64, 51, 0.06);
+}
+
+.qr-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-brown);
+    margin: 0 0 8px 0;
+}
+
+.qr-image-container {
+    width: 100%;
+    max-width: 240px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #EFE8DF;
+    margin-bottom: 10px;
+    background: #FFFFFF;
+}
+
+.qr-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.download-qr-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--accent-brown);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 9px 16px;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    width: 100%;
+    max-width: 240px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 10px rgba(139, 90, 43, 0.25);
+}
+
+.download-qr-btn:hover {
+    background: var(--text-brown);
+    transform: translateY(-1px);
+    color: #FFFFFF;
+}
+
+.qr-steps-box {
+    margin-top: 12px;
+    text-align: left;
+    background: #FFF6E9;
+    border-radius: 12px;
+    padding: 12px 14px;
+    border-left: 4px solid var(--accent-brown);
+}
+
+.qr-steps-heading {
+    margin: 0 0 8px 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--accent-brown);
+}
+
+.qr-steps-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-brown);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.qr-steps-list li strong {
+    color: #7A4419;
 }
 
 .modal-wa-btn {
@@ -329,21 +601,70 @@ body.modal-open {
    PENGATURAN KHUSUS LAYAR HP (MOBILE VIEW)
    ========================================= */
 @media (max-width: 600px) {
-    /* 1. Mengecilkan teks judul utama agar lebih proporsional */
-    header h1 {
-        font-size: 1.0rem; /* Diperkecil dari 1.6rem menjadi 1.3rem */
-        margin-bottom: 5px;
+    body {
+        padding: 14px 10px;
     }
 
-    header p {
-        font-size: 0.8rem; /* Diperkecil sedikit agar seimbang dengan judul */
-        margin-bottom: 15px;
+    /* 1. Penyesuaian Header Editorial di HP */
+    .site-header {
+        margin: 2px auto 16px;
+        padding: 0 6px;
+    }
+
+    .header-frame {
+        padding: 20px 16px 16px;
+        border-radius: 16px;
+    }
+
+    .header-frame::before {
+        inset: 4px;
+        border-radius: 12px;
+    }
+
+    .header-eyebrow {
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+
+    .eyebrow-line {
+        width: 18px;
+    }
+
+    .eyebrow-text {
+        font-size: 0.6rem;
+        letter-spacing: 0.18em;
+    }
+
+    .header-title {
+        font-size: 1.85rem;
+        margin-bottom: 6px;
+    }
+
+    .header-subtitle {
+        font-size: 0.78rem;
+        margin-bottom: 12px;
+    }
+
+    .header-meta {
+        font-size: 0.7rem;
+        gap: 4px 10px;
+        padding-top: 10px;
+    }
+
+    .meta-item svg {
+        width: 12px;
+        height: 12px;
     }
 
     /* 2. Mengecilkan tombol kategori (filter) secara keseluruhan */
+    .filters {
+        gap: 6px;
+        margin-bottom: 18px;
+    }
+
     .filter-btn {
-        font-size: 0.65rem; /* Ukuran huruf diperkecil */
-        padding: 5px 8px;  /* Ruang tombol diperkecil agar tidak memakan tempat */
+        font-size: 0.72rem;
+        padding: 6px 12px;
         border-radius: 20px;
     }
 
@@ -352,7 +673,7 @@ body.modal-open {
         display: grid;
         grid-template-columns: repeat(2, 1fr); 
         gap: 12px;
-        padding: 0 10px;
+        padding: 0 6px;
     }
 
     /* 4. Menyesuaikan ukuran kartu agar pas di dalam cetakan Grid */
@@ -394,11 +715,11 @@ body.modal-open {
     }
 
     .modal-image-wrapper {
-        max-height: 48vh;
+        max-height: 42vh;
     }
 
     .modal-image-wrapper img {
-        max-height: 48vh;
+        max-height: 42vh;
     }
 
     .modal-body {
@@ -414,6 +735,36 @@ body.modal-open {
     .modal-title {
         font-size: 1.1rem;
         margin: 2px 0 4px 0;
+    }
+
+    .modal-price-badge {
+        font-size: 0.82rem;
+        padding: 4px 12px;
+        margin-bottom: 2px;
+    }
+
+    .modal-qr-toggle-btn {
+        font-size: 0.9rem;
+        padding: 9px 14px;
+        border-radius: 12px;
+    }
+
+    .qr-image-container {
+        max-width: 200px;
+    }
+
+    .download-qr-btn {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+        max-width: 200px;
+    }
+
+    .qr-steps-heading {
+        font-size: 0.85rem;
+    }
+
+    .qr-steps-list {
+        font-size: 0.8rem;
     }
 
     .modal-wa-btn {

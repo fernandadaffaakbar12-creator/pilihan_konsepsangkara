@@ -80,18 +80,56 @@ function inisialisasiFilter() {
     });
 }
 
+// Fungsi bantu untuk mereset tampilan bagian QR di dalam modal
+function resetBagianQR() {
+    const qrSection = document.getElementById('modal-qr-section');
+    const qrToggleBtn = document.getElementById('modal-qr-toggle-btn');
+    const qrToggleText = document.getElementById('modal-qr-toggle-text');
+
+    if (qrSection) {
+        qrSection.hidden = true;
+    }
+    if (qrToggleBtn) {
+        qrToggleBtn.classList.remove('active');
+        qrToggleBtn.setAttribute('aria-expanded', 'false');
+    }
+    if (qrToggleText) {
+        qrToggleText.textContent = 'Mau bayar pakai QR';
+    }
+}
+
 // 4. Fungsi Modal Lightbox & Integrasi WhatsApp
 function bukaModal(item) {
     const modal = document.getElementById('image-modal');
+    const modalCard = modal ? modal.querySelector('.modal-card') : null;
     const modalImg = document.getElementById('modal-img');
     const modalTitle = document.getElementById('modal-title');
     const modalWaBtn = document.getElementById('modal-wa-btn');
+    const modalPrice = document.getElementById('modal-price');
 
     if (!modal) return;
+
+    // Reset bagian QR setiap kali membuka konsep baru
+    resetBagianQR();
+    if (modalCard) {
+        modalCard.scrollTop = 0;
+    }
 
     modalImg.src = item.image;
     modalImg.alt = item.title;
     modalTitle.textContent = item.title;
+
+    // Logika penentuan harga berdasarkan kategori konsep:
+    // - Konsep Pasangan: 15K (konsep pasangan)
+    // - Konsep Sendiri/1 Orang (wanita, pria, dll): 10K (konsep sendiri)
+    const kategori = (item && item.category) ? item.category.toLowerCase().trim() : '';
+    const isPasangan = kategori === 'pasangan';
+    const teksHargaOrder = isPasangan ? '15K (konsep pasangan)' : '10K (konsep sendiri)';
+
+    // Update info harga pada modal jika elemen tersedia
+    if (modalPrice) {
+        modalPrice.textContent = `🏷️ ${teksHargaOrder}`;
+    }
 
     // Template formulir order untuk WhatsApp
     const namaKonsep = item && item.title ? item.title : '';
@@ -105,7 +143,7 @@ Berikut detail pembayaranya yaa kaa:
 
 - Konsep yang dipilih : ${namaKonsep}
 
-- Nominal Transfer: Rp. 15K (konsep pasangan)
+- Nominal Transfer: Rp. ${teksHargaOrder}
 
 - Pembayaran : SEABANK, BCA, DANA, QR.
  
@@ -136,11 +174,16 @@ function tutupModal() {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
+    resetBagianQR();
 }
 
 function inisialisasiModal() {
     const modal = document.getElementById('image-modal');
     const closeBtn = document.getElementById('modal-close');
+    const qrToggleBtn = document.getElementById('modal-qr-toggle-btn');
+    const qrToggleText = document.getElementById('modal-qr-toggle-text');
+    const qrSection = document.getElementById('modal-qr-section');
+    const downloadQrBtn = document.getElementById('download-qr-btn');
 
     if (!modal || !closeBtn) return;
 
@@ -149,6 +192,52 @@ function inisialisasiModal() {
         e.stopPropagation();
         tutupModal();
     });
+
+    // Tombol toggle "Mau bayar pakai QR"
+    if (qrToggleBtn && qrSection) {
+        qrToggleBtn.addEventListener('click', () => {
+            const sedangTerbuka = !qrSection.hidden;
+            if (sedangTerbuka) {
+                resetBagianQR();
+            } else {
+                qrSection.hidden = false;
+                qrToggleBtn.classList.add('active');
+                qrToggleBtn.setAttribute('aria-expanded', 'true');
+                if (qrToggleText) {
+                    qrToggleText.textContent = 'Sembunyikan QR';
+                }
+                // Scroll halus agar gambar QR & langkah-langkah langsung terlihat
+                setTimeout(() => {
+                    qrSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 60);
+            }
+        });
+    }
+
+    // Fitur Download QR agar langsung mengunduh file gambar
+    if (downloadQrBtn) {
+        downloadQrBtn.addEventListener('click', async (e) => {
+            const qrUrl = downloadQrBtn.getAttribute('href');
+            const namaFile = downloadQrBtn.getAttribute('download') || 'QRIS-Sangkara-Digitalstudio.jpg';
+            try {
+                e.preventDefault();
+                const response = await fetch(qrUrl);
+                if (!response.ok) throw new Error('Gagal mengunduh gambar QR');
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = namaFile;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+            } catch (err) {
+                // Fallback jika dibuka langsung lewat file://
+                window.open(qrUrl, '_blank');
+            }
+        });
+    }
 
     // Klik di latar belakang (overlay) untuk menutup
     modal.addEventListener('click', (e) => {
